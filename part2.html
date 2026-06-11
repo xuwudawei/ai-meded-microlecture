@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微课 第二部分 · Micro-lecture Part 2 — 医学教育中的人工智能</title>
+<style>
+:root {
+  --navy-deep: #081830;
+  --navy: #0e2547;
+  --gold: #ffc84a;
+  --gold-soft: #ebdbad;
+  --teal: #00c9a7;
+  --ink: #eef3fc;
+  --ink-dim: #9db4dd;
+  --serif: "Songti SC", "STSong", "Noto Serif SC", Georgia, "Times New Roman", serif;
+  --sans: "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Helvetica Neue", sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 700px at 88% -8%, rgba(64,145,255,.20), transparent 60%),
+    radial-gradient(800px 600px at -8% 105%, rgba(0,201,167,.13), transparent 55%),
+    linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 55%, #13305c 100%);
+  min-height: 100vh; background-attachment: fixed;
+}
+.ring { position: fixed; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.06); pointer-events: none; }
+.ring.a { width: 560px; height: 560px; right: -180px; top: -200px; }
+.ring.b { width: 340px; height: 340px; left: -120px; bottom: -100px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 56px 24px 90px; position: relative; }
+header { text-align: center; animation: rise .8s ease both; }
+.badge {
+  display: inline-block; padding: 8px 24px; border-radius: 999px; font-size: 15px;
+  letter-spacing: 2px; font-weight: 600; color: var(--gold);
+  background: rgba(255,200,74,.12); border: 1px solid rgba(255,200,74,.5);
+}
+h1 { font-family: var(--serif); font-size: clamp(28px, 4.6vw, 44px); margin-top: 22px; line-height: 1.3; }
+.sub-en { color: var(--ink-dim); font-size: clamp(15px, 2vw, 19px); margin-top: 10px; }
+.presenter { margin-top: 18px; font-size: 15.5px; color: var(--gold-soft); }
+.presenter b { color: var(--gold); font-weight: 600; }
+.rule { width: 320px; height: 3px; margin: 30px auto; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--teal) 70%, transparent); }
+.card {
+  background: linear-gradient(180deg, rgba(18,44,84,.92), rgba(14,37,71,.92));
+  border: 1px solid rgba(255,255,255,.09); border-radius: 18px; padding: 30px;
+  box-shadow: 0 24px 60px rgba(2,8,20,.45); animation: rise .8s .15s ease both;
+}
+.card h2 { font-family: var(--serif); font-size: 24px; display: flex; align-items: center; gap: 14px; }
+.card h2 .en { font-family: var(--sans); font-size: 14px; color: var(--ink-dim); font-weight: 400; letter-spacing: 1px; }
+.num { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--teal), #36e2c4); color: #00261e;
+  font-weight: 800; font-size: 19px; }
+video { width: 100%; border-radius: 12px; margin-top: 22px; display: block; background: #000; }
+.hint { margin-top: 14px; font-size: 14px; color: var(--ink-dim); line-height: 1.7; }
+.back { display: inline-block; margin-top: 22px; color: var(--ink-dim); font-size: 14px; text-decoration: none;
+  border-bottom: 1px dashed rgba(255,255,255,.3); padding-bottom: 2px; }
+.back:hover { color: var(--gold); border-color: var(--gold); }
+
+#lockPanel { display: none; text-align: center; padding: 70px 30px; }
+#lockPanel .lock-ico { font-size: 64px; }
+#lockPanel .t-cn { font-size: 24px; font-weight: 700; margin-top: 24px; }
+#lockPanel .t-en { font-size: 15px; color: var(--ink-dim); margin-top: 10px; line-height: 1.7; }
+.golink {
+  display: inline-block; margin-top: 28px; padding: 14px 36px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold), #ff9d2e); color: #2a1a00;
+  font-weight: 800; font-size: 16px; text-decoration: none;
+  box-shadow: 0 10px 30px rgba(255,170,40,.35);
+}
+footer { text-align: center; margin-top: 56px; font-size: 13px; color: rgba(255,255,255,.4); line-height: 2; }
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="ring a"></div><div class="ring b"></div>
+<div class="wrap">
+  <header>
+    <span class="badge">微课 · MICRO-LECTURE · 第二部分 PART 2</span>
+    <h1>医学教育中的人工智能：技术·理论·设计</h1>
+    <div class="sub-en">AI in Medical Education: Technology, Theory, and Design</div>
+    <div class="presenter">主讲 Presenter：<b>David Osei Opoku</b> · 北京大学教育学院 School of Education, PKU</div>
+    <div class="rule"></div>
+  </header>
+
+  <section class="card" id="videoPanel" style="display:none">
+    <h2><span class="num">▶</span>观看第二部分 <span class="en">WATCH PART 2 · 约4分44秒</span></h2>
+    <video controls preload="metadata" poster="poster_p2.jpg" src="part2.mp4"></video>
+    <div class="hint">本视频含同步中英双语字幕。内容：虚拟病人与ITS · 学习理论 · Moodle课程设计 · 评估方案 · 伦理与收敛区。<br>
+    Synchronized Chinese & English subtitles included. Covers: virtual patients & ITS, learning theories, the Moodle course design, assessment, ethics, and the Convergence Zone.</div>
+    <a class="back" href="index.html">← 返回第一部分 · Back to Part 1</a>
+  </section>
+
+  <section class="card" id="lockPanel">
+    <div class="lock-ico">🔒</div>
+    <div class="t-cn">第二部分尚未解锁</div>
+    <div class="t-en">Part 2 is locked. Please watch Part 1 and answer the checkpoint question correctly first.<br>请先观看第一部分，并答对检查点测验。</div>
+    <a class="golink" href="index.html">前往第一部分 · Go to Part 1</a>
+  </section>
+
+  <footer>
+    《现代教育技术》作业2 · 微课课堂报告 — Assignment 2, Modern Educational Technology<br>
+    David Osei Opoku · 北京大学教育学院 School of Education, Peking University
+  </footer>
+</div>
+
+<script>
+const GATE_KEY = "ttae_part2_unlocked";
+let unlocked = false;
+try { unlocked = sessionStorage.getItem(GATE_KEY) === "yes"; } catch (e) {}
+if (new URLSearchParams(location.search).get("key") === "ttae2026") unlocked = true;
+document.getElementById(unlocked ? "videoPanel" : "lockPanel").style.display = "block";
+</script>
+</body>
+</html>

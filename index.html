@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微课 第一部分 · Micro-lecture Part 1 — 医学教育中的人工智能</title>
+<style>
+:root {
+  --navy-deep: #081830;
+  --navy: #0e2547;
+  --navy-card: #122c54;
+  --gold: #ffc84a;
+  --gold-soft: #ebdbad;
+  --teal: #00c9a7;
+  --ink: #eef3fc;
+  --ink-dim: #9db4dd;
+  --serif: "Songti SC", "STSong", "Noto Serif SC", Georgia, "Times New Roman", serif;
+  --sans: "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Helvetica Neue", sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 700px at 88% -8%, rgba(64,145,255,.20), transparent 60%),
+    radial-gradient(800px 600px at -8% 105%, rgba(0,201,167,.13), transparent 55%),
+    linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 55%, #13305c 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+.ring { position: fixed; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.06); pointer-events: none; }
+.ring.a { width: 560px; height: 560px; right: -180px; top: -200px; }
+.ring.b { width: 340px; height: 340px; left: -120px; bottom: -100px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 56px 24px 90px; position: relative; }
+
+header { text-align: center; animation: rise .8s ease both; }
+.badge {
+  display: inline-block; padding: 8px 24px; border-radius: 999px; font-size: 15px;
+  letter-spacing: 2px; font-weight: 600; color: #7df0d8;
+  background: rgba(0,201,167,.14); border: 1px solid rgba(0,201,167,.5);
+}
+h1 { font-family: var(--serif); font-size: clamp(28px, 4.6vw, 44px); margin-top: 22px; line-height: 1.3; }
+.sub-en { color: var(--ink-dim); font-size: clamp(15px, 2vw, 19px); margin-top: 10px; letter-spacing: .4px; }
+.presenter { margin-top: 18px; font-size: 15.5px; color: var(--gold-soft); }
+.presenter b { color: var(--gold); font-weight: 600; }
+.rule {
+  width: 320px; height: 3px; margin: 30px auto; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--teal) 70%, transparent);
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(18,44,84,.92), rgba(14,37,71,.92));
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 18px; padding: 30px;
+  box-shadow: 0 24px 60px rgba(2,8,20,.45);
+  animation: rise .8s .15s ease both;
+}
+.card + .card { margin-top: 34px; animation-delay: .3s; }
+.card h2 { font-family: var(--serif); font-size: 24px; display: flex; align-items: center; gap: 14px; }
+.card h2 .en { font-family: var(--sans); font-size: 14px; color: var(--ink-dim); font-weight: 400; letter-spacing: 1px; }
+.num {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--gold), #ff9d2e); color: #2a1a00;
+  font-weight: 800; font-size: 19px; font-family: var(--sans);
+}
+.num.t { background: linear-gradient(135deg, var(--teal), #36e2c4); color: #00261e; }
+video { width: 100%; border-radius: 12px; margin-top: 22px; display: block; background: #000; }
+.hint { margin-top: 14px; font-size: 14px; color: var(--ink-dim); line-height: 1.7; }
+
+.q-cn { font-size: 19px; font-weight: 600; margin-top: 22px; line-height: 1.6; }
+.q-en { font-size: 15px; color: var(--ink-dim); margin-top: 6px; line-height: 1.55; }
+.opts { margin-top: 22px; display: grid; gap: 13px; }
+.opt {
+  display: flex; gap: 16px; align-items: flex-start; width: 100%; text-align: left;
+  padding: 16px 18px; border-radius: 13px; cursor: pointer;
+  background: rgba(255,255,255,.045); border: 1.5px solid rgba(255,255,255,.13);
+  color: var(--ink); font-family: var(--sans); font-size: 16px;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.opt:hover { transform: translateX(6px); border-color: var(--gold); background: rgba(255,200,74,.07); }
+.opt .key {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+  border: 1.5px solid rgba(255,255,255,.35); font-weight: 700; font-size: 15px;
+}
+.opt .cn { font-weight: 600; line-height: 1.5; }
+.opt .en { display: block; font-size: 13.5px; color: var(--ink-dim); margin-top: 3px; }
+.opt.wrong { animation: shake .45s ease; border-color: #ff6b6b; background: rgba(255,80,80,.10); }
+.opt.right { border-color: var(--teal); background: rgba(0,201,167,.13); }
+.opt:disabled { cursor: default; opacity: .55; }
+.opt.right:disabled { opacity: 1; }
+
+.feedback { margin-top: 18px; font-size: 15px; min-height: 24px; line-height: 1.65; }
+.feedback.bad { color: #ff9b9b; }
+
+#successPanel { display: none; margin-top: 26px; padding: 26px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0,201,167,.13), rgba(255,200,74,.10));
+  border: 1px solid rgba(0,201,167,.45); animation: rise .6s ease both; }
+#successPanel .title { font-size: 20px; font-weight: 700; color: #7df0d8; }
+#successPanel p { margin-top: 12px; font-size: 14.5px; line-height: 1.75; color: var(--ink); }
+#successPanel p.en { color: var(--ink-dim); }
+.unlock {
+  display: inline-block; margin-top: 20px; padding: 15px 38px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold), #ff9d2e); color: #2a1a00;
+  font-weight: 800; font-size: 17px; text-decoration: none; letter-spacing: .5px;
+  box-shadow: 0 10px 30px rgba(255,170,40,.35);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.unlock:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(255,170,40,.5); }
+
+footer { text-align: center; margin-top: 56px; font-size: 13px; color: rgba(255,255,255,.4); line-height: 2; }
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-9px); } 75% { transform: translateX(9px); } }
+</style>
+</head>
+<body>
+<div class="ring a"></div><div class="ring b"></div>
+<div class="wrap">
+  <header>
+    <span class="badge">微课 · MICRO-LECTURE · 第一部分 PART 1</span>
+    <h1>医学教育中的人工智能：技术·理论·设计</h1>
+    <div class="sub-en">AI in Medical Education: Technology, Theory, and Design</div>
+    <div class="presenter">主讲 Presenter：<b>David Osei Opoku</b> · 北京大学教育学院 School of Education, PKU</div>
+    <div class="rule"></div>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>观看第一部分 <span class="en">WATCH PART 1 · 约4分39秒</span></h2>
+    <video controls preload="metadata" poster="poster_p1.jpg" src="part1.mp4"></video>
+    <div class="hint">本视频含同步中英双语字幕。内容：课程缘起 · TTAE整合框架 · 七大核心技术 · LLM＋知识图谱＋RAG。<br>
+    Synchronized Chinese & English subtitles included. Covers: why this course, the TTAE framework, seven core technologies, and the LLM + KG + RAG spotlight.</div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num t">2</span>检查点测验 <span class="en">CHECKPOINT QUIZ · 答对解锁第二部分</span></h2>
+    <div class="q-cn" id="qcn"></div>
+    <div class="q-en" id="qen"></div>
+    <div class="opts" id="opts"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="successPanel">
+      <div class="title">✓ 回答正确！第二部分已解锁 · Correct! Part 2 is unlocked</div>
+      <p id="excn"></p>
+      <p class="en" id="exen"></p>
+      <a class="unlock" id="unlockBtn" href="#">▶ 进入第二部分 · Continue to Part 2</a>
+    </div>
+  </section>
+
+  <footer>
+    《现代教育技术》作业2 · 微课课堂报告 — Assignment 2, Modern Educational Technology<br>
+    David Osei Opoku · 北京大学教育学院 School of Education, Peking University
+  </footer>
+</div>
+
+<script>
+const QUIZ = {
+  qcn: "本课程的核心分析工具——TTAE整合框架——包含哪四个维度？",
+  qen: "The course's core analytical tool, the TTAE integrated framework, consists of which four dimensions?",
+  options: [
+    { key: "A", cn: "技术、理论、评估、伦理", en: "Technology, Theory, Assessment, Ethics" },
+    { key: "B", cn: "教学、技术、分析、评价", en: "Teaching, Technology, Analytics, Evaluation" },
+    { key: "C", cn: "技术、训练、应用、效率", en: "Technology, Training, Application, Efficiency" },
+    { key: "D", cn: "理论、测试、自适应、参与", en: "Theory, Testing, Adaptation, Engagement" }
+  ],
+  correct: "A",
+  excn: "TTAE代表技术（Technology）、理论（Theory）、评估（Assessment）与伦理（Ethics）。该框架回应当前研究的碎片化问题，要求同时而非分别考虑四个维度；四个维度的交汇之处就是“收敛区”（Convergence Zone）。",
+  exen: "TTAE stands for Technology, Theory, Assessment, and Ethics. The framework addresses the field's fragmentation problem by requiring all four dimensions to be considered together; where they meet is called the Convergence Zone."
+};
+const GATE_KEY = "ttae_part2_unlocked";
+
+document.getElementById("qcn").textContent = QUIZ.qcn;
+document.getElementById("qen").textContent = QUIZ.qen;
+document.getElementById("excn").textContent = QUIZ.excn;
+document.getElementById("exen").textContent = QUIZ.exen;
+
+const optsBox = document.getElementById("opts");
+const feedback = document.getElementById("feedback");
+
+// shuffle options so the right answer isn't always first
+const shuffled = QUIZ.options.map(o => ({ ...o }))
+  .sort(() => Math.random() - 0.5);
+
+shuffled.forEach((o, i) => {
+  const btn = document.createElement("button");
+  btn.className = "opt";
+  btn.innerHTML = '<span class="key">' + "ABCD"[i] + '</span><span><span class="cn">' +
+    o.cn + '</span><span class="en">' + o.en + "</span></span>";
+  btn.addEventListener("click", () => answer(btn, o));
+  optsBox.appendChild(btn);
+});
+
+function answer(btn, o) {
+  if (o.key === QUIZ.correct) {
+    btn.classList.add("right");
+    document.querySelectorAll(".opt").forEach(b => (b.disabled = true));
+    feedback.textContent = "";
+    try { sessionStorage.setItem(GATE_KEY, "yes"); } catch (e) {}
+    const panel = document.getElementById("successPanel");
+    panel.style.display = "block";
+    document.getElementById("unlockBtn").href = "part2.html?key=ttae2026";
+    panel.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else {
+    btn.classList.add("wrong");
+    btn.disabled = true;
+    feedback.className = "feedback bad";
+    feedback.textContent = "✗ 再想想：TTAE的四个字母分别代表什么？ Not quite — what do the four letters of TTAE stand for?";
+    setTimeout(() => btn.classList.remove("wrong"), 500);
+  }
+}
+</script>
+</body>
+</html>
